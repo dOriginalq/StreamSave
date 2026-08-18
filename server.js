@@ -403,7 +403,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, async () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`\nServer running at http://localhost:${PORT}`);
 
   const authToken = process.env.NGROK_AUTHTOKEN;
   if (authToken && authToken !== 'your_ngrok_authtoken_here') {
@@ -412,7 +412,11 @@ app.listen(PORT, async () => {
         addr: PORT,
         authtoken: authToken
       });
-      console.log(`Ngrok URL: ${listener.url()}`);
-    } catch (err) {}
+      console.log(`Ngrok Public URL: ${listener.url()}\n`);
+    } catch (err) {
+      console.error(`Ngrok error: ${err.message}\n`);
+    }
+  } else {
+    console.log(`To enable a public Ngrok link, set NGROK_AUTHTOKEN in your .env file\n`);
   }
 });
