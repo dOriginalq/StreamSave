@@ -22,8 +22,8 @@ Ensure `yt-dlp`, `ffmpeg`, and `deno` are available in your system PATH or place
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/stream-save.git
-cd stream-save
+git clone https://github.com/dOriginalq/StreamSave.git
+cd StreamSave
 npm install
 ```
 
