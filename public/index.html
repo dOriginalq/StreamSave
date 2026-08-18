@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>YouTube to MP4 Converter – Free HD Download | StreamSave</title>
+  <meta name="description"
+    content="Convert and download YouTube videos to MP4 in HD, 1080p, 4K or MP3 instantly. Free online YouTube to MP4 converter — no signup, no ads, no storage. Also supports Instagram Reels." />
+  <meta name="keywords"
+    content="youtube to mp4, youtube downloader, youtube to mp4 converter, download youtube video, youtube mp4, yt to mp4, youtube video downloader, convert youtube to mp4, download youtube 1080p, youtube 4k downloader, instagram reels downloader, instagram video downloader, free youtube converter" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="author" content="StreamSave" />
+  <link rel="canonical" href="https://streamsave.app/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://streamsave.app/" />
+  <meta property="og:title" content="YouTube to MP4 Converter – Free HD Download | StreamSave" />
+  <meta property="og:description"
+    content="Download any YouTube video as MP4 in 4K, 1080p, 720p or MP3 — free, instant, no signup required. Also converts Instagram Reels." />
+  <meta property="og:image" content="https://streamsave.app/og-image.png" />
+  <meta property="og:site_name" content="StreamSave" />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@streamsave" />
+  <meta name="twitter:title" content="YouTube to MP4 Converter – Free HD Download | StreamSave" />
+  <meta name="twitter:description"
+    content="Free YouTube to MP4 converter. Download in 4K, 1080p, 720p or MP3. No signup, no storage, instant streaming." />
+  <meta name="twitter:image" content="https://streamsave.app/og-image.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://streamsave.app/#app",
+        "name": "StreamSave – YouTube to MP4 Converter",
+        "url": "https://streamsave.app/",
+        "description": "Free online tool to convert and download YouTube videos to MP4 or MP3 in multiple quality options including 4K, 1080p, 720p, 480p and 360p. Also supports Instagram Reels and Posts.",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Download YouTube to MP4",
+          "Download YouTube to MP3",
+          "Download Instagram Reels",
+          "4K video quality support",
+          "1080p HD download",
+          "No account required",
+          "No file storage",
+          "Free unlimited use"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I convert a YouTube video to MP4?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Paste your YouTube video URL into the input box on StreamSave, click the search button, then choose your desired quality (4K, 1080p, 720p, etc.) and click Download. The MP4 file will be saved directly to your device."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is StreamSave free to use?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, StreamSave is completely free to use. There are no hidden fees, no account required, and no download limits."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What video qualities are available for download?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "StreamSave supports all available YouTube qualities including 4K (2160p), 1440p, 1080p HD, 720p, 480p, 360p, 240p, and 144p. You can also download audio-only in MP3 format."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I download Instagram Reels?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! StreamSave supports downloading Instagram Reels and Posts. Simply switch to the Instagram tab in the sidebar, paste your Instagram link, and download."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does StreamSave store my downloaded videos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. StreamSave uses a zero-storage architecture. Videos are streamed directly from YouTube or Instagram to your browser without being saved on any server. Your privacy is fully protected."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I download YouTube videos in MP3 format?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. After pasting a YouTube link, click the 'Audio (MP3)' tab to download just the audio track as an MP3 file."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor" opacity="0.9" />
+          <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </div>
+      <span class="logo-text">StreamSave</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <p class="nav-label">Platforms</p>
+
+      <button class="nav-item active" id="nav-youtube" data-platform="youtube"
+        aria-label="Switch to YouTube downloader">
+        <span class="nav-icon">
+          
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        </span>
+        <span class="nav-text">YouTube</span>
+        <span class="nav-badge">Video &amp; Audio</span>
+      </button>
+
+      <button class="nav-item" id="nav-instagram" data-platform="instagram" aria-label="Switch to Instagram downloader">
+        <span class="nav-icon">
+          
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+          </svg>
+        </span>
+        <span class="nav-text">Instagram</span>
+        <span class="nav-badge">Reels &amp; Posts</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-info">
+        <span class="info-dot"></span>
+        <span>No files stored on server</span>
+      </div>
+      <div class="sidebar-info">
+        <span class="info-dot"></span>
+        <span>Direct stream to device</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="mobile-header">
+      <button class="burger-btn" id="burgerBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="mobile-logo">StreamSave</span>
+    </header>
+
+    <section class="hero-section" id="heroSection">
+      <div class="hero-content">
+        <div class="hero-badge" id="heroBadge">
+          <span class="badge-icon" id="badgeIcon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+          </span>
+          <span id="badgeText">YouTube Downloader</span>
+        </div>
+
+        <h1 class="hero-title" id="heroTitle">
+          Download YouTube<br />
+          <span class="gradient-text">Videos & Audio</span>
+        </h1>
+        <p class="hero-subtitle" id="heroSubtitle">
+          Paste any YouTube link and download in your preferred quality — MP4 video or MP3 audio. No signups, no
+          storage, instant download.
+        </p>
+
+        <div class="input-wrapper">
+          <div class="input-container" id="inputContainer">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+            </span>
+            <input type="url" id="videoUrl" class="url-input" placeholder="Paste YouTube URL here..." autocomplete="off"
+              spellcheck="false" aria-label="Video URL input" />
+            <button class="clear-btn" id="clearBtn" title="Clear" aria-label="Clear input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          <button class="fetch-btn" id="fetchBtn" aria-label="Fetch video">
+            <span class="fetch-btn-text">Fetch Video</span>
+            <span class="fetch-btn-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        <div class="error-toast" id="errorToast" role="alert" aria-live="polite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <span id="errorMsg">Something went wrong</span>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-num">4K</span>
+            <span class="stat-label">Max Quality</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">MP3</span>
+            <span class="stat-label">Audio Extract</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">0</span>
+            <span class="stat-label">Files Stored</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-blob" aria-hidden="true"></div>
+      <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+    </section>
+
+    <section class="loading-section" id="loadingSection" aria-live="polite" aria-label="Loading video information">
+      <div class="loading-card">
+        <div class="skeleton-thumb"></div>
+        <div class="skeleton-info">
+          <div class="skeleton-line wide"></div>
+          <div class="skeleton-line medium"></div>
+          <div class="skeleton-pills">
+            <div class="skeleton-pill"></div>
+            <div class="skeleton-pill"></div>
+            <div class="skeleton-pill"></div>
+            <div class="skeleton-pill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="loading-label">
+        <div class="spinner"></div>
+        <span>Fetching video info…</span>
+      </div>
+    </section>
+
+    <section class="results-section" id="resultsSection" aria-label="Download options">
+      <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+        <span>Your video is ready</span>
+      </div>
+
+      <div class="results-card" id="resultsCard">
+        
+        <div class="results-header">
+          <div class="thumb-container">
+            <img id="videoThumb" src="" alt="Video thumbnail" class="video-thumb" />
+            <div class="thumb-overlay">
+              <svg viewBox="0 0 24 24" fill="white">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="video-info">
+            <div class="video-platform-tag" id="videoPlatformTag">
+              <span id="platformTagIcon"></span>
+              <span id="platformTagText">YouTube</span>
+            </div>
+            <h2 class="video-title" id="videoTitle">Video Title</h2>
+            <div class="video-meta">
+              <span class="meta-item" id="videoUploader"></span>
+              <span class="meta-item" id="videoDuration"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="format-tabs">
+          <button class="format-tab active" id="tabVideo" data-tab="video" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="23 7 16 12 23 17 23 7" />
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </svg>
+            Video (MP4)
+          </button>
+          <button class="format-tab" id="tabAudio" data-tab="audio" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+            Audio (MP3)
+          </button>
+        </div>
+
+        <div class="quality-section" id="qualityVideo">
+          <p class="quality-label">Select Video Quality</p>
+          <div class="quality-grid" id="videoQualityGrid"></div>
+        </div>
+
+        <div class="quality-section hidden" id="qualityAudio">
+          <p class="quality-label">Audio Download</p>
+          <div class="quality-grid" id="audioQualityGrid"></div>
+        </div>
+
+        <div class="download-progress" id="downloadProgress" aria-live="polite">
+          <div class="progress-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </div>
+          <span id="downloadProgressText">Starting download…</span>
+        </div>
+      </div>
+
+      <button class="new-download-btn" id="newDownloadBtn" aria-label="Start a new download">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        New Download
+      </button>
+    </section>
+
+    <div class="seo-zone">
+
+      <section class="seo-section" aria-labelledby="howto-heading">
+        <div class="seo-container">
+          <h2 id="howto-heading" class="seo-heading">How to Convert YouTube to MP4</h2>
+          <p class="seo-intro">Download any YouTube video in 3 simple steps — no software to install, no account needed.
+          </p>
+          <ol class="howto-steps">
+            <li class="howto-step">
+              <div class="step-number">1</div>
+              <div class="step-body">
+                <h3 class="step-title">Copy the YouTube URL</h3>
+                <p class="step-desc">Open YouTube and copy the video link from the address bar or the Share button.
+                  Works with any youtube.com or youtu.be link.</p>
+              </div>
+            </li>
+            <li class="howto-step">
+              <div class="step-number">2</div>
+              <div class="step-body">
+                <h3 class="step-title">Paste &amp; Fetch</h3>
+                <p class="step-desc">Paste the URL into the StreamSave input box above. The video info and all available
+                  quality options will load instantly.</p>
+              </div>
+            </li>
+            <li class="howto-step">
+              <div class="step-number">3</div>
+              <div class="step-body">
+                <h3 class="step-title">Choose Quality &amp; Download</h3>
+                <p class="step-desc">Select your preferred resolution — 4K, 1080p HD, 720p, 480p, 360p or MP3 — and
+                  click the quality pill to start your download.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="seo-section seo-section--alt" aria-labelledby="features-heading">
+        <div class="seo-container">
+          <h2 id="features-heading" class="seo-heading">Why Use StreamSave?</h2>
+          <p class="seo-intro">The fastest, safest, and most private YouTube to MP4 converter online.</p>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🎬</div>
+              <h3 class="feature-title">4K &amp; HD Quality</h3>
+              <p class="feature-desc">Download YouTube videos in up to 4K (2160p), 1440p, 1080p HD, 720p and more —
+                every resolution YouTube provides.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎵</div>
+              <h3 class="feature-title">MP3 Audio Extraction</h3>
+              <p class="feature-desc">Extract audio tracks from any YouTube video and save them as high-quality MP3
+                files in one click.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔒</div>
+              <h3 class="feature-title">Zero Storage</h3>
+              <p class="feature-desc">Videos stream directly from YouTube to your browser. Nothing is saved on our
+                servers — complete privacy guaranteed.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📱</div>
+              <h3 class="feature-title">Instagram Reels</h3>
+              <p class="feature-desc">Also downloads Instagram Reels and Posts in full quality. Switch to the Instagram
+                tab and paste any reel link.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h3 class="feature-title">Instant &amp; Free</h3>
+              <p class="feature-desc">No signup, no captcha, no waiting. StreamSave is completely free with no download
+                limits and no hidden costs.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🖥️</div>
+              <h3 class="feature-title">Works Everywhere</h3>
+              <p class="feature-desc">Fully browser-based — works on Windows, Mac, Linux, iPhone and Android. No app or
+                extension to install.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="seo-section" aria-labelledby="faq-heading">
+        <div class="seo-container seo-container--narrow">
+          <h2 id="faq-heading" class="seo-heading">Frequently Asked Questions</h2>
+          <div class="faq-list">
+
+            <details class="faq-item">
+              <summary class="faq-q">Is it legal to download YouTube videos to MP4?</summary>
+              <p class="faq-a">Downloading YouTube videos may be subject to YouTube's Terms of Service. StreamSave is
+                intended for downloading videos you have permission to download — such as your own uploads, Creative
+                Commons content, or videos explicitly permitted by their creator. Always respect copyright law.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-q">How do I convert YouTube to MP4 in 1080p?</summary>
+              <p class="faq-a">Paste your YouTube link into StreamSave. Once the video loads, you'll see quality options
+                including 1080p60, 1080p, 720p60 and more. Click the 1080p pill to download that specific quality as an
+                MP4 file.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-q">Can I download a full YouTube playlist?</summary>
+              <p class="faq-a">Currently StreamSave downloads one video at a time. Paste the URL of a specific video
+                rather than the playlist URL for best results.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-q">Why is a quality option greyed out or missing?</summary>
+              <p class="faq-a">Quality options depend entirely on what the original uploader made available on YouTube.
+                If a specific quality like 4K is missing, the video was not uploaded in that resolution. Downloading
+                1080p+ also requires ffmpeg to be installed on the server for audio/video merging.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-q">What is the fastest YouTube video downloader?</summary>
+              <p class="faq-a">StreamSave streams directly from YouTube's servers to your browser in real-time. Download
+                speed depends on your internet connection and YouTube's delivery speed — no intermediate re-upload or
+                transcoding delay.</p>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-q">Does StreamSave work on mobile?</summary>
+              <p class="faq-a">Yes. StreamSave is fully responsive and works on mobile browsers including Safari
+                (iPhone/iPad) and Chrome (Android). The interface adapts to smaller screens automatically.</p>
+            </details>
+
+          </div>
+        </div>
+      </section>
+
+      <footer class="seo-footer">
+        <div class="seo-container">
+          <p class="footer-copy">© 2025 StreamSave. Free YouTube to MP4 converter. All rights reserved.</p>
+          <p class="footer-disclaimer">StreamSave is not affiliated with YouTube, Google, or Meta. Use responsibly and
+            in accordance with the platform's terms of service.</p>
+        </div>
+      </footer>
+
+    </div>
+
+  </main>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="dl-overlay" id="dlOverlay" aria-live="polite" role="status" aria-label="Download progress">
+    <div class="dl-panel">
+
+      <div class="dl-header">
+        <div class="dl-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        </div>
+        <div class="dl-info">
+          <div class="dl-title" id="dlTitle">Downloading…</div>
+          <div class="dl-subtitle" id="dlSubtitle">Preparing…</div>
+        </div>
+        <button class="dl-cancel" id="dlCancel" aria-label="Cancel download" title="Cancel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="dl-bar-row">
+        <div class="dl-bar">
+          <div class="dl-bar-fill" id="dlBarFill"></div>
+        </div>
+        <span class="dl-pct" id="dlPct">—</span>
+      </div>
+
+      <div class="dl-cards">
+        <div class="dl-card">
+          <span class="dl-card-label">Downloaded</span>
+          <span class="dl-card-value" id="dlReceived">— MB</span>
+          <span class="dl-card-sub" id="dlTotal"></span>
+        </div>
+        <div class="dl-card-divider"></div>
+        <div class="dl-card">
+          <span class="dl-card-label">Speed</span>
+          <span class="dl-card-value" id="dlSpeed">— MB/s</span>
+          <span class="dl-card-sub" id="dlSpeedSub">&nbsp;</span>
+        </div>
+        <div class="dl-card-divider"></div>
+        <div class="dl-card">
+          <span class="dl-card-label">ETA</span>
+          <span class="dl-card-value" id="dlEta">—</span>
+          <span class="dl-card-sub" id="dlEtaSub">&nbsp;</span>
+        </div>
+      </div>
+
+      <div class="dl-done" id="dlDone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        <span>Saved to your Downloads folder</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
