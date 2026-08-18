@@ -248,15 +248,20 @@ function renderQualityGrid(container, formats, videoData) {
       badgeHtml = `<span class="quality-badge badge-audio">HQ Audio</span>`;
     }
 
-    const iconSvg = isVideo
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
+    let iconSvg = '';
+    if (is4K) {
+      iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="3"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polygon points="10 7 15 10 10 13 10 7" fill="currentColor" stroke="none"/></svg>`;
+    } else if (isVideo) {
+      iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="4"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>`;
+    } else {
+      iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="18" cy="16" r="3" fill="currentColor"/></svg>`;
+    }
 
-    const sizeStr = fmt.filesize ? formatBytes(fmt.filesize) : (fmt.needsMerge ? 'HD' : '');
+    const sizeStr = fmt.filesize ? formatBytes(fmt.filesize) : (fmt.needsMerge ? 'HD Quality' : '');
 
     card.innerHTML = `
       <div class="quality-card-left">
-        <div class="quality-icon ${isVideo ? 'video-icon' : 'audio-icon'}">${iconSvg}</div>
+        <div class="quality-icon ${isVideo ? 'video-icon' : 'audio-icon'} ${is4K ? 'is-4k' : ''}">${iconSvg}</div>
         <div class="quality-meta">
           <div class="quality-label-row">
             <span class="quality-label">${fmt.label}</span>
@@ -268,8 +273,8 @@ function renderQualityGrid(container, formats, videoData) {
           </div>
         </div>
       </div>
-      <button class="btn-download" data-format-id="${fmt.id}" data-ext="${fmt.ext || 'mp4'}" data-type="${fmt.type}" data-size="${fmt.filesize || ''}">
-        <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <button class="btn-download" data-format-id="${fmt.id}" data-ext="${fmt.ext || 'mp4'}" data-type="${fmt.type}" data-size="${fmt.filesize || ''}" aria-label="Download ${fmt.label}">
+        <svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         <span class="btn-text">Download</span>
       </button>
     `;
