@@ -105,7 +105,7 @@ function getBaseYtDlpArgs(platform = 'youtube') {
   }
 
   if (platform === 'youtube') {
-    args.push('--extractor-args', 'youtube:player_client=ios,android,mweb,web');
+    args.push('--extractor-args', 'youtube:player_client=tv,tv_downgraded,web_creator,mweb,ios,android_vr,web,android');
   }
 
   return args;
