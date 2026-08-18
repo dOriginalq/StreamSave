@@ -5,8 +5,24 @@ const path = require('path');
 const fs = require('fs');
 const ngrok = require('@ngrok/ngrok');
 
+try {
+  const envPath = path.join(__dirname, '.env');
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    envContent.split('\n').forEach(line => {
+      const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+      if (match) {
+        const key = match[1];
+        let val = match[2] || '';
+        val = val.trim().replace(/^['"]|['"]$/g, '');
+        if (!process.env[key]) process.env[key] = val;
+      }
+    });
+  }
+} catch {}
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 function resolveYtDlp() {
   const local = path.join(__dirname, 'yt-dlp.exe');
@@ -389,11 +405,14 @@ app.get('*', (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server running at http://localhost:${PORT}`);
 
-  try {
-    const listener = await ngrok.forward({
-      addr: PORT,
-      authtoken: "1jUccGFunH8ARfxfzQ40GsB9lUG_4Yo2sgYpMdA6riBq7FDjY"
-    });
-    console.log(`Ngrok URL: ${listener.url()}`);
-  } catch (err) {}
+  const authToken = process.env.NGROK_AUTHTOKEN;
+  if (authToken && authToken !== 'your_ngrok_authtoken_here') {
+    try {
+      const listener = await ngrok.forward({
+        addr: PORT,
+        authtoken: authToken
+      });
+      console.log(`Ngrok URL: ${listener.url()}`);
+    } catch (err) {}
+  }
 });

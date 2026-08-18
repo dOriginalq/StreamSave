@@ -8,6 +8,7 @@ A clean, zero-storage web application to download videos and audio from YouTube 
 - **Zero Storage**: Streams media straight to the browser without saving files on disk.
 - **DASH Stream Muxing**: In-flight video and audio muxing for high-definition video formats.
 - **Multi-Platform**: Full support for YouTube and Instagram URLs.
+- **Remote Access with Ngrok**: Optional public tunneling support via environment variables.
 
 ## Prerequisites
 
@@ -26,6 +27,20 @@ cd stream-save
 npm install
 ```
 
+## Configuration (Optional)
+
+To enable an ngrok public URL tunnel, copy `.env.example` to `.env` and provide your token:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+```env
+NGROK_AUTHTOKEN=your_ngrok_authtoken_here
+PORT=3000
+```
+
 ## Running
 
 ```bash
@@ -40,6 +55,7 @@ Open your browser at `http://localhost:3000`.
 stream-save/
 ├── server.js        # Express backend
 ├── package.json     # Node.js dependencies
+├── .env.example     # Environment configuration template
 ├── README.md        # Documentation
 ├── .gitignore       # Git ignore rules
 └── public/
