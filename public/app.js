@@ -309,7 +309,7 @@ function downloadFormat(btn, fmt, videoData) {
 }
 
 function showLoading(show) {
-  dom.loadingSection.classList.toggle('hidden', !show);
+  dom.loadingSection.classList.toggle('visible', show);
   dom.fetchBtn.disabled = show;
   dom.fetchBtn.classList.toggle('btn-loading', show);
   if (show) {
@@ -318,11 +318,11 @@ function showLoading(show) {
 }
 
 function showResults() {
-  dom.resultsSection.classList.remove('hidden');
+  dom.resultsSection.classList.add('visible');
 }
 
 function hideResults() {
-  dom.resultsSection.classList.add('hidden');
+  dom.resultsSection.classList.remove('visible');
   state.videoData = null;
 }
 
