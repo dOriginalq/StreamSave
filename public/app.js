@@ -36,6 +36,8 @@ const dom = {
   audioQualityGrid: $('audioQualityGrid'),
   downloadProgress: $('downloadProgress'),
   downloadProgressText: $('downloadProgressText'),
+  downloadProgressPercent: $('downloadProgressPercent'),
+  downloadProgressBarFill: $('downloadProgressBarFill'),
   newDownloadBtn: $('newDownloadBtn'),
   burgerBtn:      $('burgerBtn'),
   sidebar:        $('sidebar'),
@@ -292,25 +294,77 @@ function downloadFormat(btn, fmt, videoData) {
   const ext = fmt.ext || (fmt.type === 'audio' ? 'mp3' : 'mp4');
   const title = videoData.title || 'download';
   const type = fmt.type;
+  const downloadId = 'dl_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
 
-  const downloadUrl = `/api/download?url=${encodeURIComponent(url)}&formatId=${encodeURIComponent(formatId)}&ext=${ext}&title=${encodeURIComponent(title)}&type=${type}`;
+  const downloadUrl = `/api/download?url=${encodeURIComponent(url)}&formatId=${encodeURIComponent(formatId)}&ext=${ext}&title=${encodeURIComponent(title)}&type=${type}&downloadId=${downloadId}`;
 
   btn.disabled = true;
+  btn.classList.add('is-downloading');
   const originalHtml = btn.innerHTML;
-  btn.innerHTML = `<span class="spinner-sm"></span> Starting…`;
+  btn.innerHTML = `<span class="spinner-sm"></span> 0%`;
+
+  if (dom.downloadProgress) {
+    dom.downloadProgress.classList.add('visible');
+    dom.downloadProgressText.textContent = `Preparing ${fmt.label}...`;
+    dom.downloadProgressPercent.textContent = '0%';
+    dom.downloadProgressBarFill.style.width = '0%';
+  }
 
   const iframe = document.createElement('iframe');
   iframe.style.display = 'none';
   iframe.src = downloadUrl;
   document.body.appendChild(iframe);
 
+  let pollInterval = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/progress?id=${downloadId}`);
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data.status === 'downloading') {
+        const pct = Math.min(99, Math.round(data.percent || 0));
+        btn.innerHTML = `<span class="spinner-sm"></span> ${pct}%`;
+        if (dom.downloadProgress) {
+          const speedText = data.speed ? ` · ${data.speed}` : '';
+          dom.downloadProgressText.textContent = `Downloading ${fmt.label}${speedText}`;
+          dom.downloadProgressPercent.textContent = `${pct}%`;
+          dom.downloadProgressBarFill.style.width = `${pct}%`;
+        }
+      } else if (data.status === 'done' || data.percent >= 100) {
+        clearInterval(pollInterval);
+        pollInterval = null;
+        btn.classList.remove('is-downloading');
+        btn.classList.add('is-done');
+        btn.innerHTML = `<svg class="dl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span>Done!</span>`;
+        if (dom.downloadProgress) {
+          dom.downloadProgressText.textContent = `Download complete!`;
+          dom.downloadProgressPercent.textContent = `100%`;
+          dom.downloadProgressBarFill.style.width = `100%`;
+          setTimeout(() => {
+            dom.downloadProgress.classList.remove('visible');
+          }, 3500);
+        }
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.classList.remove('is-done');
+          btn.innerHTML = originalHtml;
+          try { document.body.removeChild(iframe); } catch {}
+        }, 3000);
+      }
+    } catch {}
+  }, 400);
+
   setTimeout(() => {
-    btn.disabled = false;
-    btn.innerHTML = originalHtml;
-    setTimeout(() => {
+    if (pollInterval) {
+      clearInterval(pollInterval);
+      if (btn.classList.contains('is-downloading')) {
+        btn.disabled = false;
+        btn.classList.remove('is-downloading');
+        btn.innerHTML = originalHtml;
+      }
       try { document.body.removeChild(iframe); } catch {}
-    }, 60000);
-  }, 2500);
+    }
+  }, 600000);
 }
 
 function showLoading(show) {

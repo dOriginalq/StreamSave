@@ -1,3 +1,10 @@
+process.on('uncaughtException', (err) => {
+  if (err.code !== 'EOF' && err.code !== 'EPIPE' && err.code !== 'ECONNRESET') {
+    console.error('Error:', err.message);
+  }
+});
+process.on('unhandledRejection', () => {});
+
 const express = require('express');
 const cors = require('cors');
 const { spawn, execSync } = require('child_process');
@@ -76,6 +83,10 @@ function getBaseYtDlpArgs(platform = 'youtube') {
     '--no-playlist',
     '--no-warnings',
     '--no-check-certificates',
+    '--http-chunk-size', '10M',
+    '--buffer-size', '16M',
+    '--concurrent-fragments', '5',
+    '--socket-timeout', '30',
   ];
 
   const localFfmpeg = path.join(__dirname, 'ffmpeg.exe');
@@ -94,7 +105,7 @@ function getBaseYtDlpArgs(platform = 'youtube') {
   }
 
   if (platform === 'youtube') {
-    args.push('--extractor-args', 'youtube:player_client=tv,tv_downgraded,web_creator,mweb,ios,android_vr,web,android');
+    args.push('--extractor-args', 'youtube:player_client=ios,android,mweb,web');
   }
 
   return args;
@@ -224,7 +235,7 @@ app.get('/api/info', async (req, res) => {
 app.get('/api/progress', (req, res) => {
   const { id } = req.query;
   if (!id) return res.status(400).json({ error: 'Missing id parameter' });
-  res.json(activeDownloads[id] || { status: 'idle' });
+  res.json(activeDownloads[id] || { status: 'idle', percent: 0 });
 });
 
 app.get('/api/download', async (req, res) => {
@@ -237,163 +248,82 @@ app.get('/api/download', async (req, res) => {
   const filename  = `${safeTitle}.${ext}`;
 
   if (downloadId) {
-    activeDownloads[downloadId] = { status: 'starting', percent: 0 };
+    activeDownloads[downloadId] = { status: 'starting', percent: 0, speed: '', eta: '' };
   }
 
   const platform = detectPlatform(url);
-  const needsMerge = type !== 'audio' && /\+/.test(formatId);
 
   res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
   res.setHeader('Content-Type', type === 'audio' ? 'audio/mpeg' : 'video/mp4');
   res.setHeader('Cache-Control', 'no-store');
 
   let ytProc = null;
-  let ffmpegProc = null;
   let aborted = false;
 
   function abort() {
     if (aborted) return;
     aborted = true;
-    try { if (ytProc)     ytProc.kill('SIGKILL');     } catch {}
-    try { if (ffmpegProc) ffmpegProc.kill('SIGKILL'); } catch {}
-    if (downloadId) delete activeDownloads[downloadId];
+    try { if (ytProc) ytProc.kill('SIGKILL'); } catch {}
+    if (downloadId) {
+      delete activeDownloads[downloadId];
+    }
   }
 
   req.on('close', abort);
+  res.on('close', abort);
+  res.on('error', () => { abort(); });
+
+  const args = [
+    ...getBaseYtDlpArgs(platform),
+  ];
 
   if (type === 'audio') {
-    const args = [
-      ...getBaseYtDlpArgs(platform),
+    args.push(
       '-f', formatId,
       '--extract-audio', '--audio-format', 'mp3', '--audio-quality', '0',
       '-o', '-',
       '--no-part',
-      url,
-    ];
-    ytProc = spawn(YT_DLP, args);
-
-    ytProc.stderr.on('data', d => {
-      const msg = d.toString();
-      if (downloadId) {
-        const m = msg.match(/\[download\]\s+([\d.]+)%/);
-        if (m) activeDownloads[downloadId] = { status: 'downloading', percent: parseFloat(m[1]) };
-      }
-    });
-    ytProc.on('error', () => { abort(); });
-    ytProc.stdout.pipe(res);
-    ytProc.on('close', () => {
-      if (!aborted && downloadId) {
-        delete activeDownloads[downloadId];
-      }
-    });
-    return;
-  }
-
-  if (!needsMerge) {
-    const args = [
-      ...getBaseYtDlpArgs(platform),
-      '-f', `${formatId}/best`,
+      url
+    );
+  } else {
+    args.push(
+      '-f', formatId,
       '-o', '-',
       '--no-part',
       '--fragment-retries', '10',
       '--extractor-retries', '3',
       '--retry-sleep', '1',
-      url,
-    ];
-    ytProc = spawn(YT_DLP, args);
-
-    ytProc.stderr.on('data', d => {
-      const msg = d.toString();
-      if (downloadId) {
-        const m = msg.match(/\[download\]\s+([\d.]+)%/);
-        if (m) activeDownloads[downloadId] = { status: 'downloading', percent: parseFloat(m[1]) };
-      }
-    });
-    ytProc.on('error', () => { abort(); });
-    ytProc.stdout.pipe(res);
-    ytProc.on('close', () => {
-      if (!aborted && downloadId) {
-        delete activeDownloads[downloadId];
-      }
-    });
-    return;
+      url
+    );
   }
 
-  const [videoFmtRaw, audioFmtRaw] = formatId.split('+');
-  const videoFmt = videoFmtRaw.trim();
-  const audioFmt = audioFmtRaw.trim();
+  ytProc = spawn(YT_DLP, args);
 
-  const localFfmpeg = path.join(__dirname, 'ffmpeg.exe');
-  const FFMPEG = fs.existsSync(localFfmpeg) ? localFfmpeg : 'ffmpeg';
-
-  const videoArgs = [
-    ...getBaseYtDlpArgs(platform),
-    '-f', `${videoFmt}/bestvideo`,
-    '-o', '-',
-    '--no-part',
-    '--fragment-retries', '10',
-    '--extractor-retries', '3',
-    '--retry-sleep', '1',
-    url,
-  ];
-  const audioArgs = [
-    ...getBaseYtDlpArgs(platform),
-    '-f', `${audioFmt}`,
-    '-o', '-',
-    '--no-part',
-    '--fragment-retries', '10',
-    '--extractor-retries', '3',
-    '--retry-sleep', '1',
-    url,
-  ];
-
-  const ffmpegArgs = [
-    '-loglevel', 'error',
-    '-i', 'pipe:3',
-    '-i', 'pipe:4',
-    '-c:v', 'copy',
-    '-c:a', 'aac',
-    '-movflags', 'frag_keyframe+empty_moov+faststart',
-    '-f', 'mp4',
-    'pipe:1',
-  ];
-
-  const ytVideo = spawn(YT_DLP, videoArgs);
-  const ytAudio = spawn(YT_DLP, audioArgs);
-
-  ffmpegProc = spawn(FFMPEG, ffmpegArgs, {
-    stdio: ['ignore', 'pipe', 'pipe', 'pipe', 'pipe'],
-  });
-
-  ytVideo.stdout.pipe(ffmpegProc.stdio[3]);
-  ytAudio.stdout.pipe(ffmpegProc.stdio[4]);
-  ffmpegProc.stdio[1].pipe(res);
-
-  ytVideo.stderr.on('data', d => {
+  ytProc.stderr.on('data', d => {
     const msg = d.toString();
     if (downloadId) {
-      const m = msg.match(/\[download\]\s+([\d.]+)%\s+of\s+([\d.~]+\w+)/);
+      const m = msg.match(/\[download\]\s+([\d.]+)%(?:\s+of\s+~?([\d.]+\w+))?(?:\s+at\s+([\d.]+\w+\/s))?(?:\s+ETA\s+([\d:]+))?/i);
       if (m) {
         const pct = parseFloat(m[1]);
-        activeDownloads[downloadId] = { status: 'downloading', percent: Math.round(pct * 0.85) };
+        activeDownloads[downloadId] = {
+          status: pct >= 100 ? 'done' : 'downloading',
+          percent: pct,
+          size: m[2] || '',
+          speed: m[3] || '',
+          eta: m[4] || ''
+        };
       }
     }
   });
 
-  ytVideo.on('error', () => { abort(); });
-  ytAudio.on('error', () => { abort(); });
-  ffmpegProc.on('error', () => { abort(); });
+  ytProc.on('error', () => { abort(); });
+  ytProc.stdout.on('error', () => { abort(); });
+  ytProc.stdout.pipe(res);
 
-  ytVideo.on('close', () => {
-    try { ffmpegProc.stdio[3].end(); } catch {}
-  });
-  ytAudio.on('close', () => {
-    try { ffmpegProc.stdio[4].end(); } catch {}
-  });
-  ffmpegProc.on('close', () => {
+  ytProc.on('close', () => {
     if (!aborted && downloadId) {
       activeDownloads[downloadId] = { status: 'done', percent: 100 };
-      setTimeout(() => delete activeDownloads[downloadId], 3000);
+      setTimeout(() => delete activeDownloads[downloadId], 5000);
     }
   });
 });
