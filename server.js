@@ -59,9 +59,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const activeDownloads = {};
 
+const ALLOWED_HOSTS = {
+  youtube: new Set(['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com', 'youtu.be']),
+  instagram: new Set(['instagram.com', 'www.instagram.com', 'm.instagram.com']),
+};
+
 function detectPlatform(url) {
-  if (/youtube\.com|youtu\.be/i.test(url)) return 'youtube';
-  if (/instagram\.com/i.test(url)) return 'instagram';
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return 'unknown';
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return 'unknown';
+
+  const hostname = parsed.hostname.toLowerCase();
+  if (ALLOWED_HOSTS.youtube.has(hostname)) return 'youtube';
+  if (ALLOWED_HOSTS.instagram.has(hostname)) return 'instagram';
   return 'unknown';
 }
 
