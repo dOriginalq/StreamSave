@@ -238,20 +238,52 @@ app.get('/api/progress', (req, res) => {
   res.json(activeDownloads[id] || { status: 'idle', percent: 0 });
 });
 
+const ALLOWED_EXT = new Set(['mp4', 'mp3']);
+const ALLOWED_TYPES = new Set(['video', 'audio']);
+const MAX_CONCURRENT_DOWNLOADS = 4;
+let activeDownloadCount = 0;
+
+function failDownload(res, downloadId, message, status = 400) {
+  if (downloadId) {
+    activeDownloads[downloadId] = { status: 'error', percent: 0, error: message };
+    setTimeout(() => delete activeDownloads[downloadId], 5000);
+  }
+  res.status(status).json({ error: message });
+}
+
 app.get('/api/download', async (req, res) => {
   const { url, formatId, ext = 'mp4', title = 'download', type = 'video', downloadId } = req.query;
   if (!url || !formatId) {
-    return res.status(400).json({ error: 'Missing url or formatId' });
+    return failDownload(res, downloadId, 'Missing url or formatId');
+  }
+
+  if (!ALLOWED_EXT.has(ext) || !ALLOWED_TYPES.has(type)) {
+    return failDownload(res, downloadId, 'Invalid ext or type parameter');
+  }
+
+  const platform = detectPlatform(url);
+  if (platform === 'unknown') {
+    return failDownload(res, downloadId, 'Only YouTube and Instagram URLs are supported');
+  }
+
+  if (activeDownloadCount >= MAX_CONCURRENT_DOWNLOADS) {
+    return failDownload(res, downloadId, 'Server is busy handling other downloads — please try again shortly.', 429);
   }
 
   const safeTitle = title.replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_') || 'download';
   const filename  = `${safeTitle}.${ext}`;
 
+  activeDownloadCount++;
+  let slotReleased = false;
+  function releaseSlot() {
+    if (slotReleased) return;
+    slotReleased = true;
+    activeDownloadCount = Math.max(0, activeDownloadCount - 1);
+  }
+
   if (downloadId) {
     activeDownloads[downloadId] = { status: 'starting', percent: 0, speed: '', eta: '' };
   }
-
-  const platform = detectPlatform(url);
 
   res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
   res.setHeader('Content-Type', type === 'audio' ? 'audio/mpeg' : 'video/mp4');
@@ -316,12 +348,29 @@ app.get('/api/download', async (req, res) => {
     }
   });
 
-  ytProc.on('error', () => { abort(); });
+  ytProc.on('error', () => { releaseSlot(); abort(); });
   ytProc.stdout.on('error', () => { abort(); });
   ytProc.stdout.pipe(res);
 
-  ytProc.on('close', () => {
-    if (!aborted && downloadId) {
+  ytProc.on('close', (code) => {
+    releaseSlot();
+    if (aborted) return;
+
+    if (code !== 0) {
+      const message = 'Download failed — the video may be unavailable or the selected format is unsupported.';
+      if (downloadId) {
+        activeDownloads[downloadId] = { status: 'error', percent: 0, error: message };
+        setTimeout(() => delete activeDownloads[downloadId], 5000);
+      }
+      if (!res.headersSent) {
+        res.status(500).json({ error: message });
+      } else {
+        try { res.end(); } catch {}
+      }
+      return;
+    }
+
+    if (downloadId) {
       activeDownloads[downloadId] = { status: 'done', percent: 100 };
       setTimeout(() => delete activeDownloads[downloadId], 5000);
     }

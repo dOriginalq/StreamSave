@@ -330,6 +330,17 @@ function downloadFormat(btn, fmt, videoData) {
           dom.downloadProgressPercent.textContent = `${pct}%`;
           dom.downloadProgressBarFill.style.width = `${pct}%`;
         }
+      } else if (data.status === 'error') {
+        clearInterval(pollInterval);
+        pollInterval = null;
+        btn.disabled = false;
+        btn.classList.remove('is-downloading');
+        btn.innerHTML = originalHtml;
+        if (dom.downloadProgress) {
+          dom.downloadProgress.classList.remove('visible');
+        }
+        showError(data.error || 'Download failed. Please try a different quality or try again.');
+        try { document.body.removeChild(iframe); } catch {}
       } else if (data.status === 'done' || data.percent >= 100) {
         clearInterval(pollInterval);
         pollInterval = null;
